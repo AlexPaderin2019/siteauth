@@ -43,6 +43,13 @@ class SessionHelper:
     def input_password(self, password):
         wd = self.app.wd
         if password is not None:
+            # Ждём, когда со страницы исчезнет <input id="hiddenPassword" ...
+            for i in range(15):
+                passwd = wd.find_elements_by_id("hiddenPassword")
+                if len(passwd) > 0:
+                    time.sleep(0.2)
+                else:
+                    break
             if wd.find_elements_by_tag_name('label')[0].text == "Введите пароль":
                 self.setvalue("passp-field-passwd", password)
                 wd.find_element_by_css_selector('button[type="submit"]').click()
