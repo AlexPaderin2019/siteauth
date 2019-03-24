@@ -17,14 +17,12 @@ class SessionHelper:
         base_url = self.web_config['baseUrl']
         if wd.current_url != base_url:
             wd.get(base_url)
-            time.sleep(2)
 
     def entry_to_email(self):
         wd = self.app.wd
         entry_list = wd.find_elements_by_link_text("Войти в почту")
         if len(entry_list) > 0:
             entry_list[0].click()
-            time.sleep(2)
 
     def setvalue(self, value, text):
         wd = self.app.wd
@@ -36,6 +34,8 @@ class SessionHelper:
     def input_username(self, username):
         wd = self.app.wd
         if username is not None:
+            # Ждём, когда фокус будет в поле ввода
+            Wait(wd, 5).until(EC.visibility_of_any_elements_located((By.CLASS_NAME, "passp-form-field_focused")))
             if wd.find_elements_by_tag_name('label')[0].text == "Введите логин, почту или телефон":
                 self.setvalue("passp-field-login", username)
                 wd.find_element_by_css_selector('button[type="submit"]').click()
@@ -69,7 +69,7 @@ class SessionHelper:
         wd = self.app.wd
         inbox = False
         sent = False
-        wait_folders = Wait(wd, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "span.js-folders-item-name")))
+        Wait(wd, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "span.js-folders-item-name")))
         folders_list = wd.find_elements_by_css_selector("span.js-folders-item-name")
         for item in folders_list:
             if item.text == "Входящие":
