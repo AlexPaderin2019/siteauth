@@ -11,6 +11,6 @@ def test_auth_error(app):
     app.session.input_username(username)
     app.session.input_password(password)
 
-    element = app.session.get_element()
+    element_text = app.session.get_element_text()
 
-    assert element == "Неверный пароль"
+    assert element_text == "Неверный пароль"

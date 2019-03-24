@@ -82,7 +82,7 @@ class SessionHelper:
         else:
             return False
 
-    def get_element(self):
+    def get_element_text(self):
         wd = self.app.wd
-        element = wd.find_element_by_class_name("passp-form-field__error").text
-        return element
+        element_text = wd.find_element_by_class_name("passp-form-field__error").text
+        return element_text
